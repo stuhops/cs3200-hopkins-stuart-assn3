@@ -1,7 +1,10 @@
 import React from 'react';
 import {
   SafeAreaView,
+  StyleSheet,
   StatusBar,
+  Text,
+  View,
 } from 'react-native';
 
 import Button from './button.js';
@@ -10,13 +13,13 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <SafeAreaView>
+      <SafeAreaView style={ this.styles.fullContainer }>
         <StatusBar barStyle="dark-content" />
         <View style={ this.styles.container }>
-          <h1 style={ this.styles.title }>{ this.props.title }</h1>
-          <p>{ this.props.text }</p>
+          <Text style={ this.styles.title }>{ this.props.title }</Text>
+          <Text>{ this.props.text }</Text>
 
-          <Button title={ this.props.btnTitle } onPress={ this.props.onPress } />
+          <Button title={ this.props.btnTitle } onPress={() => this.props.navigateToFunction(this.props.navigateToDestination)} />
 
         </View>
       </SafeAreaView>
@@ -30,11 +33,16 @@ export default class App extends React.Component {
       justifyContent: 'center',
       alignItems: 'center',
     },
+    fullContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
     title: {
       fontSize: 48,
-      alignSelf: 'center',
+      textAlign: 'center',
       color: '#000680',
-    }
+    },
   });
 
 }
