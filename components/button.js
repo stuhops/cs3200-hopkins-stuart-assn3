@@ -12,11 +12,11 @@ export default class Button extends React.Component {
   styles = StyleSheet.create({
     button: {
       backgroundColor: '#4ccc25',
-      margin: 8,
-      borderRadius: 50,
+      padding: 8,
+      borderRadius: 10,
     },
     title: {
-      fontSize: 48,
+      fontSize: 24,
       alignSelf: 'center',
       color: 'white',
     }
