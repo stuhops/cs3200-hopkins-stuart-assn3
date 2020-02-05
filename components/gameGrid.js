@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import {
   Text,
   View,
@@ -7,150 +8,31 @@ import {
   StatusBar,
 } from 'react-native';
 
-import Tile from './tile.js';
+import Row from './row.js';
 
 export default class App extends React.Component {
-
-  render() {
-    return (
-      <SafeAreaView>
-        <StatusBar barStyle="dark-content" />
-        <View style={ this.styles.scoreBar }>
-          <Text style={ this.styles.score }>Hello</Text>
-        </View>
-        <View style={ this.styles.mainContainer }>
-          {/* Row 1 */}
-          <View style={ this.styles.rowContainer }>
-            <View style={ this.styles.columnContainer }>
-              <Tile backgroundColor='backgroundColor: "green"'></Tile>
-            </View>
-            <View style={ this.styles.columnContainer }>
-              <Tile backgroundColor='backgroundColor: "green"'></Tile>
-            </View>
-            <View style={ this.styles.columnContainer }>
-              <Tile backgroundColor='backgroundColor: "green"'></Tile>
-            </View>
-            <View style={ this.styles.columnContainer }>
-              <Tile backgroundColor='backgroundColor: "green"'></Tile>
-            </View>
-            <View style={ this.styles.columnContainer }>
-              <Tile backgroundColor='backgroundColor: "green"'></Tile>
-            </View>
-          </View>
-          {/* Row 2 */}
-          <View style={ this.styles.rowContainer }>
-            <View style={ this.styles.columnContainer }>
-            </View>
-            <View style={ this.styles.columnContainer }>
-            </View>
-            <View style={ this.styles.columnContainer }>
-            </View>
-            <View style={ this.styles.columnContainer }>
-            </View>
-            <View style={ this.styles.columnContainer }>
-            </View>
-          </View>
-          {/* Row 3 */}
-          <View style={ this.styles.rowContainer }>
-            <View style={ this.styles.columnContainer }>
-            </View>
-            <View style={ this.styles.columnContainer }>
-            </View>
-            <View style={ this.styles.columnContainer }>
-            </View>
-            <View style={ this.styles.columnContainer }>
-            </View>
-            <View style={ this.styles.columnContainer }>
-            </View>
-          </View>
-          {/* Row 4 */}
-          <View style={ this.styles.rowContainer }>
-            <View style={ this.styles.columnContainer }>
-            </View>
-            <View style={ this.styles.columnContainer }>
-            </View>
-            <View style={ this.styles.columnContainer }>
-            </View>
-            <View style={ this.styles.columnContainer }>
-            </View>
-            <View style={ this.styles.columnContainer }>
-            </View>
-          </View>
-          {/* Row 5 */}
-          <View style={ this.styles.rowContainer }>
-            <View style={ this.styles.columnContainer }>
-            </View>
-            <View style={ this.styles.columnContainer }>
-            </View>
-            <View style={ this.styles.columnContainer }>
-            </View>
-            <View style={ this.styles.columnContainer }>
-            </View>
-            <View style={ this.styles.columnContainer }>
-            </View>
-          </View>
-          {/* Row 6 */}
-          <View style={ this.styles.rowContainer }>
-            <View style={ this.styles.columnContainer }>
-            </View>
-            <View style={ this.styles.columnContainer }>
-            </View>
-            <View style={ this.styles.columnContainer }>
-            </View>
-            <View style={ this.styles.columnContainer }>
-            </View>
-            <View style={ this.styles.columnContainer }>
-            </View>
-          </View>
-          {/* Row 7 */}
-          <View style={ this.styles.rowContainer }>
-            <View style={ this.styles.columnContainer }>
-            </View>
-            <View style={ this.styles.columnContainer }>
-            </View>
-            <View style={ this.styles.columnContainer }>
-            </View>
-            <View style={ this.styles.columnContainer }>
-            </View>
-            <View style={ this.styles.columnContainer }>
-            </View>
-          </View>
-          {/* Row 8 */}
-          <View style={ this.styles.rowContainer }>
-            <View style={ this.styles.columnContainer }>
-            </View>
-            <View style={ this.styles.columnContainer }>
-            </View>
-            <View style={ this.styles.columnContainer }>
-            </View>
-            <View style={ this.styles.columnContainer }>
-            </View>
-            <View style={ this.styles.columnContainer }>
-            </View>
-          </View>
-        </View>
-      </SafeAreaView>
-    )
+  state = {
+    grid: [
+      [null,null,null,null,null],
+      [null,null,null,null,null],
+      [null,null,null,null,null],
+      [null,null,null,null,null],
+      [null,null,null,1,null],
+      [null,null,null,null,null],
+      [null,null,null,null,null],
+      [null,null,null,null,null],
+    ],
   }
 
   styles = StyleSheet.create({
+    body: {
+      height: '100%',
+      width: '100%',
+    },
+
     mainContainer: {
-      flex: 1,
-      margin: 10,
-      justifyContent: 'space-between',
-    },
-
-    rowContainer: {
-      flex: 1,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-    },
-
-    columnContainer: {
-      flex: 1,
-      width: 20,
-      height: 20,
-
+      flex: 10,
+      padding: 10,
     },
 
     title: {
@@ -160,17 +42,51 @@ export default class App extends React.Component {
     },
 
     scoreBar: {
-      height: 20,
-      width: '100%',
+      flex: 1,
       flexDirection: 'row',
       justifyContent: 'space-around',
     },
 
     score: {
       flex: 1,
-      fontSize: 15,
+      fontSize: 36,
       color: 'black',
     },
   });
+
+  get rowComponents() {
+    // generate a winning index
+    let tmpGrid = _.map(this.state.grid, row => row.slice() );
+    tmpGrid[Math.floor(Math.random() * 8)][Math.floor(Math.random() * 5)] = 1;
+    () => console.log('hello');
+    
+
+    this.setState(state => { grid: tmpGrid });
+    // use a passed in generate function to generate the rest of the objects.
+    return _.map(this.state.grid, (row, i) => {
+      return <Row 
+              rowKey={ `row_${i}` }
+              rowIndex={ i }
+              rowData={ row }
+            />
+    });
+  }
+
+
+  render() {
+    return (
+      <SafeAreaView style={ this.styles.body }>
+        <StatusBar barStyle="dark-content" />
+
+        <View style={ this.styles.scoreBar }>
+          <Text style={ this.styles.score }>SCORE</Text>
+        </View>
+
+        <View style={ this.styles.mainContainer }>
+          { this.rowComponents }
+        </View>
+      </SafeAreaView>
+    )
+  }
 
 }
