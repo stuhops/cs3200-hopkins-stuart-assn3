@@ -10,18 +10,7 @@ import GameGrid from './components/gameGrid.js';
 export default class App extends React.Component {
 
   state = {
-    route: 'welcome',
-    grid: [
-      [null,null,null,null,null,null,],
-      [null,null,null,null,null,null,],
-      [null,null,null,null,null,null,],
-      [null,null,null,null,null,null,],
-      [null,null,null,null,null,null,],
-      [null,null,null,null,null,null,],
-      [null,null,null,null,null,null,],
-      [null,null,null,null,null,null,],
-      [null,null,null,null,null,null,],
-    ]
+    route: 'level_1',
   }
 
   get currentPageComponent() {
@@ -35,7 +24,7 @@ export default class App extends React.Component {
                 navigateToFunction={this.navigateTo}
               />;
     } else if (this.state.route === 'level_1') {
-      return <GameGrid/>;
+      return <GameGrid route={ this.state.route }/>;
     }
     return <Text>Page not found</Text>;
   }
