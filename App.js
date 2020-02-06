@@ -10,7 +10,7 @@ import GameGrid from './components/gameGrid.js';
 export default class App extends React.Component {
 
   state = {
-    route: 'level_1',
+    route: 'welcome',
   }
 
   get currentPageComponent() {
@@ -23,9 +23,38 @@ export default class App extends React.Component {
                 navigateToDestination='level_1'
                 navigateToFunction={this.navigateTo}
               />;
-    } else if (this.state.route === 'level_1') {
-      return <GameGrid route={ this.state.route }/>;
     }
+    else if (this.state.route === 'level_1') {
+      return <GameGrid
+                route={ this.state.route }
+                navigateToFunction={this.navigateTo}
+             />;
+    }
+    else if (this.state.route === 'level_2_menu') {
+      return  <Menu 
+                title='Tapit'
+                text='Tap the blue button as many times as you can before time expires.
+                      If you score at least 10 points, you will win!'
+                btnTitle='Start Level 2'
+                navigateToDestination='level_2'
+                navigateToFunction={this.navigateTo}
+              />;
+    }
+    else if (this.state.route === 'level_2') {
+      return <GameGrid
+                route={ this.state.route }
+                navigateToFunction={this.navigateTo}
+             />;
+    }
+    else if (this.state.route == 'game_over') {
+      return  <Menu 
+                title='Game Over'
+                btnTitle='Main Menu'
+                navigateToDestination='welcome'
+                navigateToFunction={this.navigateTo}
+              />;
+    }
+
     return <Text>Page not found</Text>;
   }
 
