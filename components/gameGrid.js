@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 
 import Row from './row.js';
+import Timer from './timer.js';
 
 export default class App extends React.Component {
   state = {
@@ -22,7 +23,6 @@ export default class App extends React.Component {
       [null,null,null,null,null],
       [null,null,null,null,null],
     ],
-    time: 10,
     score: 0,
   }
 
@@ -51,7 +51,7 @@ export default class App extends React.Component {
 
     score: {
       flex: 1,
-      fontSize: 36,
+      fontSize: 24,
       color: 'black',
     },
   });
@@ -82,11 +82,11 @@ export default class App extends React.Component {
     this.setState(state => ({ grid: tmpGrid }));
   }
 
-  set score(value) {
+  score(value) {
     if(value === 'rgb(0, 0, 255)')
-      this.setState(state => ({ score: state.score + 1 }))
+      this.setState(state => ({ score: state.score + 1 }));
     else if(value === null)
-      return
+      return;
     else
       this.props.navigateToFunction('game_over');
   }
@@ -102,6 +102,13 @@ export default class App extends React.Component {
     });
   }
 
+  onTimeOut() {
+    // if(this.props.route === 'level_1')
+    //   this.props.navigateToFunction('level_2_menu');
+    // else if(this.props.route === 'level_2')
+    //   this.props.navigateToFunction('game_over');
+  }
+
   render() {
     return (
       <SafeAreaView style={ this.styles.body }>
@@ -109,6 +116,11 @@ export default class App extends React.Component {
 
         <View style={ this.styles.scoreBar }>
           <Text style={ this.styles.score }>SCORE</Text>
+          <Timer
+              style={ this.styles.score }
+              onTimeOut={ this.onTimeOut() }
+          />
+          
         </View>
 
         <View style={ this.styles.mainContainer }>

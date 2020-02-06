@@ -1,6 +1,5 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import Button from './common/button';
 
 export default class StopwatchPage extends React.Component {
   state = {
@@ -10,13 +9,7 @@ export default class StopwatchPage extends React.Component {
 
   timerId = null
 
-  componentWillUnmount = () => {
-    clearTimeout(this.timerId);
-  }
-
-  render() {
-    const { navigateTo } = this.props;
-
+  componentDidMount = () => {
     this.timerId = setInterval(
       () => {
         if(this.state.secondsLeft > 1) {
@@ -32,10 +25,16 @@ export default class StopwatchPage extends React.Component {
       },
       1000
     );
+  }
 
+  componentWillUnmount = () => {
+    clearTimeout(this.timerId);
+  }
+
+  render() {
     return (
       <View>
-        <Text style={ this.props.style }>{this.state.secondsLeft}</Text>
+        <Text style={ this.props.style }>Time Left: {this.state.secondsLeft}</Text>
       </View>
     );
   }
