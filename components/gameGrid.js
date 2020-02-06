@@ -17,11 +17,13 @@ export default class App extends React.Component {
       [null,null,null,null,null],
       [null,null,null,null,null],
       [null,null,null,null,null],
-      [null,null,null,1,null],
+      [null,null,null,null,null],
       [null,null,null,null,null],
       [null,null,null,null,null],
       [null,null,null,null,null],
     ],
+    time: 10,
+    score: 0,
   }
 
   styles = StyleSheet.create({
@@ -54,14 +56,42 @@ export default class App extends React.Component {
     },
   });
 
-  get rowComponents() {
-    // generate a winning index
-    let tmpGrid = _.map(this.state.grid, row => row.slice() );
-    tmpGrid[Math.floor(Math.random() * 8)][Math.floor(Math.random() * 5)] = 1;
-    () => console.log('hello');
-    
+  componentDidMount() {
+    this.generateGrid();
+  }
 
-    this.setState(state => { grid: tmpGrid });
+  get randomColor() {
+    return `rgb(${(Math.floor(Math.random() * 256))}, ${(Math.floor(Math.random() * 256))}, ${(Math.floor(Math.random() * 256))})`;
+  }
+
+  generateGrid = route => {
+    let tmpGrid = _.map(this.state.grid, row => row.slice() );
+    _.map(tmpGrid, row => {
+      return _.map(row, index => {
+        if(route === 'level_1')
+          return null;
+
+        else if(route === 'level_2')
+          return this.randomColor();
+
+      });
+    });
+
+    tmpGrid[Math.floor(Math.random() * 8)][Math.floor(Math.random() * 5)] = 'rgb(0, 0, 255)';
+
+    this.setState(state => ({ grid: tmpGrid }));
+  }
+
+  set score(value) {
+    if(value === 'rgb(0, 0, 255)')
+      this.setState(state => ({ score: state.score + 1 }))
+    else if(value === null)
+      return
+    else
+      this.props.navigateToFunction('game_over');
+  }
+
+  get rowComponents() {
     // use a passed in generate function to generate the rest of the objects.
     return _.map(this.state.grid, (row, i) => {
       return <Row 
@@ -71,7 +101,6 @@ export default class App extends React.Component {
             />
     });
   }
-
 
   render() {
     return (
