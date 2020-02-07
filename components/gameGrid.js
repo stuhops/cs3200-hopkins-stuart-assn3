@@ -24,6 +24,7 @@ export default class App extends React.Component {
       [null,null,null,null,null],
     ],
     score: 0,
+    won: false,
   }
 
   styles = StyleSheet.create({
@@ -102,11 +103,16 @@ export default class App extends React.Component {
     });
   }
 
-  onTimeOut() {
-    // if(this.props.route === 'level_1')
-    //   this.props.navigateToFunction('level_2_menu');
-    // else if(this.props.route === 'level_2')
-    //   this.props.navigateToFunction('game_over');
+  onTimeOut = () => {
+    if(this.state.won) {
+      if(this.props.route === 'level_1')
+        this.props.navigateToFunction('level_2_menu');
+      else if(this.props.route === 'level_2')
+        this.props.navigateToFunction('game_over');
+    }
+
+    else
+      this.props.navigateToFunction('game_over');
   }
 
   render() {
@@ -115,10 +121,10 @@ export default class App extends React.Component {
         <StatusBar barStyle="dark-content" />
 
         <View style={ this.styles.scoreBar }>
-          <Text style={ this.styles.score }>SCORE</Text>
+          <Text style={ this.styles.score }>SCORE: { this.state.score }</Text>
           <Timer
               style={ this.styles.score }
-              onTimeOut={ this.onTimeOut() }
+              onTimeOut={ this.onTimeOut }
           />
           
         </View>
