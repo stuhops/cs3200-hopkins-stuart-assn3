@@ -18,7 +18,7 @@ export default class App extends React.Component {
   state = {
     grid: [],
     score: 0,
-    won: true,
+    won: false,
   }
 
   styles = StyleSheet.create({
@@ -52,12 +52,11 @@ export default class App extends React.Component {
   });
 
   componentDidMount() {
-    console.log(this.props.route);
     this.setState(state => ({ grid: this.generateGrid(this.props.route) }));
   }
 
   randomColor = () => {
-    return `rgb(${(Math.floor(Math.random() * 256))}, ${(Math.floor(Math.random() * 256))}, ${(Math.floor(Math.random() * 256))})`;
+    return `rgb(${(Math.floor(Math.random() * 256))}, ${(Math.floor(Math.random() * 256))}, ${(Math.floor(Math.random() * 100))})`;
   }
 
   generateGrid = (route) => {
@@ -68,7 +67,6 @@ export default class App extends React.Component {
         return this.randomColor();
       });
     }
-    console.log(stack);
     stack[0] = 'rgb(0, 0, 255)';
     stack = _.shuffle(stack);
     const grid = _.map(_.range(0, ROWS), () => {
@@ -110,7 +108,7 @@ export default class App extends React.Component {
       if(this.props.route === 'level_1')
         this.props.navigateToFunction('level_2_menu');
       else if(this.props.route === 'level_2')
-        this.props.navigateToFunction('game_over');
+        this.props.navigateToFunction('level_3_menu');
     }
 
     else
