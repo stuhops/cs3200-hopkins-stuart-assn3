@@ -77,7 +77,7 @@ export default class App extends React.Component {
 
   onTilePress = (value) => {
     if(value === 'rgb(0, 0, 255)') {
-      if(this.state.score === 9)
+      if(this.state.score === Number(this.props.pointsToWin)-1)
         this.setState(state => ({won: true}));
 
       this.setState(state => ({ 
@@ -105,10 +105,7 @@ export default class App extends React.Component {
 
   onTimeOut = () => {
     if(this.state.won) {
-      if(this.props.route === 'level_1')
-        this.props.navigateToFunction('level_2_menu');
-      else if(this.props.route === 'level_2')
-        this.props.navigateToFunction('level_3_menu');
+      this.props.navigateToFunction(this.props.winRoute);
     }
 
     else
@@ -122,6 +119,7 @@ export default class App extends React.Component {
 
         <View style={ this.styles.scoreBar }>
           <Text style={ this.styles.score }>SCORE: { this.state.score }</Text>
+          <Text style={ this.styles.score }>{ this.props.route }</Text>
           <Timer
               style={ this.styles.score }
               onTimeOut={ this.onTimeOut }

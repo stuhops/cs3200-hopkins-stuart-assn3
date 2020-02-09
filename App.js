@@ -27,13 +27,18 @@ export default class App extends React.Component {
     else if (this.state.route === 'level_1') {
       return <GameGrid
                 route={ this.state.route }
+                pointsToWin='15'
+                winRoute='level_2_menu'
                 navigateToFunction={this.navigateTo}
              />;
     }
     else if (this.state.route === 'level_2_menu') {
       return  <Menu 
                 title='Success!'
-                text="That wasn't hard enough. Now let's really test your skills."
+                text="
+                      That wasn't hard enough. Now let's really test your skills.
+                      Now you must only touch the blue button. If you touch any other buttons you will lose!
+                     "
                 btnTitle='Start Level 2'
                 navigateToDestination='level_2'
                 navigateToFunction={this.navigateTo}
@@ -42,6 +47,8 @@ export default class App extends React.Component {
     else if (this.state.route === 'level_2') {
       return <GameGrid
                 route={ this.state.route }
+                pointsToWin='20'
+                winRoute='level_3_menu'
                 navigateToFunction={this.navigateTo}
              />;
     }
@@ -57,6 +64,7 @@ export default class App extends React.Component {
     else if (this.state.route == 'game_over') {
       return  <Menu 
                 title='Game Over'
+                text='You have failed yourself, your partner, and your family. Now shamefully return to the beginning.'
                 btnTitle='Main Menu'
                 navigateToDestination='welcome'
                 navigateToFunction={this.navigateTo}
