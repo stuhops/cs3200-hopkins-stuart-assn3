@@ -11,20 +11,14 @@ import {
 import Row from './row.js';
 import Timer from './timer.js';
 
+const ROWS = 8;
+const COLS = 5;
+
 export default class App extends React.Component {
   state = {
-    grid: [
-      [null,null,null,null,null],
-      [null,null,null,null,null],
-      [null,null,null,null,null],
-      [null,null,null,null,null],
-      [null,null,null,null,null],
-      [null,null,null,null,null],
-      [null,null,null,null,null],
-      [null,null,null,null,null],
-    ],
+    grid: [],
     score: 0,
-    won: false,
+    won: true,
   }
 
   styles = StyleSheet.create({
@@ -58,34 +52,41 @@ export default class App extends React.Component {
   });
 
   componentDidMount() {
-    this.generateGrid();
+    console.log(this.props.route);
+    this.setState(state => ({ grid: this.generateGrid(this.props.route) }));
   }
 
-  get randomColor() {
+  randomColor = () => {
     return `rgb(${(Math.floor(Math.random() * 256))}, ${(Math.floor(Math.random() * 256))}, ${(Math.floor(Math.random() * 256))})`;
   }
 
-  generateGrid = route => {
-    let tmpGrid = _.map(this.state.grid, row => row.slice() );
-    _.map(tmpGrid, row => {
-      return _.map(row, index => {
-        if(route === 'level_1')
-          return null;
-
-        else if(route === 'level_2')
-          return this.randomColor();
-
+  generateGrid = (route) => {
+    let stack;
+    stack = _.fill(Array(COLS * ROWS), null);
+    if(route !== 'level_1') {
+      stack = _.map(stack, index => {
+        return this.randomColor();
       });
+    }
+    console.log(stack);
+    stack[0] = 'rgb(0, 0, 255)';
+    stack = _.shuffle(stack);
+    const grid = _.map(_.range(0, ROWS), () => {
+      return _.map(_.range(0, COLS), () => stack.pop());
     });
-
-    tmpGrid[Math.floor(Math.random() * 8)][Math.floor(Math.random() * 5)] = 'rgb(0, 0, 255)';
-
-    this.setState(state => ({ grid: tmpGrid }));
+    return grid;
   }
 
-  score(value) {
-    if(value === 'rgb(0, 0, 255)')
-      this.setState(state => ({ score: state.score + 1 }));
+  onTilePress = (value) => {
+    if(value === 'rgb(0, 0, 255)') {
+      if(this.state.score === 9)
+        this.setState(state => ({won: true}));
+
+      this.setState(state => ({ 
+        score: state.score + 1,
+        grid: this.generateGrid(this.props.route),
+      }));
+    }
     else if(value === null)
       return;
     else
@@ -99,6 +100,7 @@ export default class App extends React.Component {
               rowKey={ `row_${i}` }
               rowIndex={ i }
               rowData={ row }
+              onPress={ this.onTilePress }
             />
     });
   }

@@ -26,24 +26,14 @@ export default class App extends React.Component {
 
   get columnComponents() {
     return _.map(this.props.rowData, (columnValue, j) => {
-      if(columnValue != null) {
-        return(
-          <Tile
-            key={`index_${this.props.rowIndex}_${j}`}
-            style={[this.styles.column, {backgroundColor: "blue"}]}
-            onPress={() => console.log(`You pressed the button at column: ${j}!`)}
-          />
-        );
-      }
-      else {
-        return(
-          <Tile
-            key={`index_${this.props.rowIndex}_${j}`}
-            style={[this.styles.column, {hidden: "true"}]}
-            onPress={() => {}}
-          />
-        );
-      }
+      return(
+        <Tile
+          key={`index_${this.props.rowIndex}_${j}`}
+          value={ columnValue }
+          style={[this.styles.column, {backgroundColor: columnValue}]}
+          onPress={ this.props.onPress }
+        />
+      );
     });
   }
 
