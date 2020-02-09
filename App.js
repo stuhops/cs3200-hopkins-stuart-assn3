@@ -32,9 +32,8 @@ export default class App extends React.Component {
     }
     else if (this.state.route === 'level_2_menu') {
       return  <Menu 
-                title='Tapit'
-                text='Tap the blue button as many times as you can before time expires.
-                      If you score at least 10 points, you will win!'
+                title='Success!'
+                text="That wasn't hard enough. Now let's really test your skills."
                 btnTitle='Start Level 2'
                 navigateToDestination='level_2'
                 navigateToFunction={this.navigateTo}
@@ -45,6 +44,15 @@ export default class App extends React.Component {
                 route={ this.state.route }
                 navigateToFunction={this.navigateTo}
              />;
+    }
+    else if (this.state.route === 'level_3_menu') {
+      return  <Menu 
+                title='nice.'
+                text="If you are good enough to get to this point, you are better than the gamemaker..."
+                btnTitle='Return to Welcome'
+                navigateToDestination='welcome'
+                navigateToFunction={this.navigateTo}
+              />;
     }
     else if (this.state.route == 'game_over') {
       return  <Menu 
